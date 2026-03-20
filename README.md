@@ -29,9 +29,3 @@ The system operates on an advanced multi-stage pipeline:
 3.  **Macro Synthesizer**: Generates crisp, fundamental analyses based strictly on retrieved context.
 4.  **Execution Desk**: Translates macro views into precise option strikes (e.g., Bear Put Spreads, Iron Condors).
 
-## 🛠️ Quick Start
-
-1. Clone the repository:
-   ```bash
-   git clone [https://github.com/YourUsername/Finsight_Nexus.git](https://github.com/YourUsername/Finsight_Nexus.git)
-   cd Finsight_Nexus
