@@ -1,0 +1,16 @@
+# 绝对机密
+.env
+
+# Python 缓存和虚拟环境
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+
+# 本地生成的临时用户文件
+user_watchlist.json
+
+# 系统文件
+.DS_Store
+Thumbs.db
