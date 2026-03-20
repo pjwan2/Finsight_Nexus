@@ -10,7 +10,8 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 import google.generativeai as genai
 from dotenv import load_dotenv
-
+from deep_translator import GoogleTranslator
+from concurrent.futures import ThreadPoolExecutor
 # Load environment variables
 load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
@@ -95,12 +96,13 @@ def semantic_search_news(ticker, news_list, top_k=5):
         return news_list[:top_k]
 
 # --- RAG Stage 2: AI Macro Analyst ---
-# --- RAG Stage 2: AI Macro Analyst ---
-def fetch_ai_analysis(ticker, current_price, rsi, macd, sma, earnings, vix, news_list, *args, **kwargs):
+
+def fetch_ai_analysis(ticker, current_price, rsi, macd, sma, earnings, vix, news_list, lang="EN", *args, **kwargs):
     if not api_key:
         return "API Key missing. Please set GEMINI_API_KEY in .env file."
         
     try:
+
         high_signal_news = semantic_search_news(ticker, news_list, top_k=10)
         
         news_context = "\n".join([f"- {n.get('time_str', '')}: {n.get('headline', '')}" for n in high_signal_news])
@@ -109,7 +111,11 @@ def fetch_ai_analysis(ticker, current_price, rsi, macd, sma, earnings, vix, news
 
         macro_context = f"VIX Level: {vix}, Upcoming Earnings: {earnings}, RSI: {rsi}, MACD: {macd}, SMA20: {sma}"
 
-        # 🌟 ENTERPRISE GUARDRAILS PROMPT (Zero-Hallucination Enforced)
+   
+        target_lang = "Chinese" if lang == "CN" else "English"
+        prefix = "[AI 宏观策略师]" if lang == "CN" else "[AI Macro Strategist]"
+
+
         prompt = f"""
         Act as an elite quantitative macro strategist.
         Target Asset: {ticker} (Current Price: {current_price})
@@ -124,16 +130,18 @@ def fetch_ai_analysis(ticker, current_price, rsi, macd, sma, earnings, vix, news
         1. GROUNDING RULE: You MUST formulate your analysis STRICTLY and EXCLUSIVELY using the facts explicitly stated in the "RELEVANT SEMANTIC NEWS CONTEXT" and "MACROECONOMIC CONTEXT" provided above.
         2. ZERO KNOWLEDGE LEAKAGE: DO NOT use your internal training data. DO NOT invent, hallucinate, or reference events, historical data, executives, or financial metrics that are not explicitly present in the text above.
         3. If the provided context is completely unrelated or insufficient, explicitly state: "Insufficient semantic context to formulate a definitive macro thesis."
+        4. OUTPUT LANGUAGE: You MUST output your final analysis STRICTLY in {target_lang}.
         
         TASK:
         Provide a crisp, professional analysis (under 150 words). 
-        Format exactly as follows:
+        Format EXACTLY as follows:
         
-        [AI Macro Strategist] The technical and fundamental landscape... (Your macro analysis based strictly on the provided signals).
+        {prefix} (Your macro analysis based strictly on the provided signals).
         """
         
         dynamic_model_name = _get_dynamic_model("flash")
    
+
         model = genai.GenerativeModel(dynamic_model_name, generation_config={"temperature": 0.1})
         response = model.generate_content(prompt)
         return response.text
@@ -180,5 +188,34 @@ def fetch_exact_option_playbook(ticker, current_price, option_chain, analysis, *
         return f"Playbook Generation Fault: {str(e)}"
 
 # --- Dashboard Compatibility: News Translation Passthrough ---
-def translate_news_headlines(news_list, *args, **kwargs):
+# --- Fast, Zero-Cost Translation (Powered by Google Translate API) ---
+# --- Fast, Concurrent Zero-Cost Translation ---
+def translate_news_headlines(news_list, lang="EN", *args, **kwargs):
+    """
+    Uses Google Translate API with Multithreading to translate 30+ items in parallel.
+    Reduces 30 seconds of blocking I/O to ~1 second.
+    """
+    if lang == "EN" or not news_list: 
+        return news_list
+        
+    try:
+        translator = GoogleTranslator(source='auto', target='zh-CN')
+        
+      
+        def translate_single(n):
+            if n.get('headline'):
+                try:
+                    n['headline'] = translator.translate(n['headline'])
+                except:
+                    pass
+            return n
+
+ 
+        with ThreadPoolExecutor(max_workers=15) as executor:
+      
+            news_list = list(executor.map(translate_single, news_list))
+                
+    except Exception as e:
+        print(f"[Translation System Warning] Fallback to English due to: {e}")
+        
     return news_list
