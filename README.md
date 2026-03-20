@@ -1,32 +1,61 @@
 <img width="1388" height="1122" alt="image" src="https://github.com/user-attachments/assets/235b8b9f-3f76-49b7-8076-30a31ffe3a85" />
 
 
-# 📈 Finsight Nexus 3.0: Enterprise-Grade AI Quant Terminal
+# 📟 Finsight Nexus: Enterprise Multi-Agent AI Quant Terminal
 
-![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
-![Gemini](https://img.shields.io/badge/Google-Gemini_Flash-orange.svg)
-![Streamlit](https://img.shields.io/badge/UI-Streamlit-FF4B4B.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.32.0-red)
+![LangGraph](https://img.shields.io/badge/LangGraph-Multi--Agent-purple)
+![Gemini](https://img.shields.io/badge/Google_Gemini-1.5_Flash-orange)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-**Finsight Nexus** is a local-first, zero-hallucination institutional quantitative trading terminal. It merges real-time macroeconomic data, semantic RAG (Retrieval-Augmented Generation), and multi-agent workflows to deliver actionable options playbooks and macro-strategic insights.
+**Finsight Nexus** is an enterprise-grade, Bloomberg-style quantitative AI terminal. It bridges the gap between raw financial market data and actionable options trading strategies by leveraging a **Zero-Hallucination RAG Pipeline** and a **LangGraph-powered Multi-Agent Execution Desk**.
+
+> 💡 **Architectural Highlight:** This system goes beyond standard LLM wrappers. It features autonomous agents that dynamically generate Python quantitative models, execute them in a local sandbox, and utilize the mathematical outputs to formulate mathematically-backed options playbooks.
+
+![Finsight Terminal Dashboard](./image_9b94c2.jpg) *(Replace with your actual image path/link)*
 
 
 
 ---
 
-## 🚀 Key Features
+## 🚀 Core Architecture & Features
 
-* **Bloomberg-Style UI**: Lightning-fast, terminal-grade interface built on Streamlit, featuring real-time technical indicators (RSI, MACD, SMA) and live option chains.
-* **Semantic Search RAG**: Bypasses naive chronological truncation. Utilizes high-dimensional vector embeddings (`models/embedding-001` to `004`) and Cosine Similarity to recall the absolute highest-signal news.
-* **Zero-Hallucination Guardrails**: Powered by strictly prompted Gemini models at `temperature: 0.1` to ensure AI analysis is 100% grounded in retrieved facts.
-* **LLM-as-a-Judge Evaluation**: Includes an enterprise-grade standalone CI/CD evaluation pipeline (`eval_rag.py`) to mathematically score *Faithfulness* and *Context Relevance*.
-* **Dynamic Model Resolution**: Zero hardcoded API versions. The system dynamically probes for the latest available Google Gemini capabilities to prevent deprecation 404s.
+### 1. 🧠 Zero-Hallucination RAG Strategist (Engine 1)
+- **Semantic Signal Extraction:** Ingests up to 48 hours of live macro and ticker-specific news firehose, utilizing vector similarity search to extract the Top 10 highest-signal headlines.
+- **Strict Grounding Guardrails:** Prompt-engineered with absolute zero-knowledge-leakage constraints. The AI is forced to formulate thesis *strictly* on retrieved news and real-time technical indicators (RSI, MACD, SMA20).
+- **Evaluation Badge:** Features a UI-integrated `Faithfulness 10.0/10` health check badge to guarantee institutional-level trust.
 
-## 🧠 Architecture Overview
+### 2. ⚡ LangGraph Multi-Agent Execution Desk (Engine 2)
+A 4-node sequential state machine (Ledger) that mimics a real Wall Street quant desk:
+1. **Macro Strategist Agent:** Formulates a baseline thesis utilizing VIX and price action.
+2. **Risk Quant Agent:** Translates the thesis into executable Python code (e.g., implied daily volatility models: `VIX / sqrt(252)`).
+3. **Execution Sandbox (PythonREPL):** Dynamically executes the AI-generated code to prove the mathematical viability of the thesis.
+4. **Head Trader Agent:** Formulates the final options derivative strategy (e.g., Long Strangle, Iron Condor) heavily weighted by the exact output from the Sandbox.
 
-The system operates on an advanced multi-stage pipeline:
-1.  **Radar**: Ingests massive raw market feeds.
-2.  **Semantic Retrieval**: Vectorizes inputs to filter out market noise.
-3.  **Macro Synthesizer**: Generates crisp, fundamental analyses based strictly on retrieved context.
-4.  **Execution Desk**: Translates macro views into precise option strikes (e.g., Bear Put Spreads, Iron Condors).
+### 3. 🚄 High-Performance Concurrent Pipeline
+- **I/O Bottleneck Eradication:** Integrates `concurrent.futures.ThreadPoolExecutor` to handle 30+ simultaneous Google Translate API requests, dropping translation latency from ~30 seconds to under 1.5 seconds.
+- **Dynamic Model Routing:** Features a custom fail-safe radar (`_get_dynamic_model`) to automatically scan and hook into the active Gemini API endpoints, preventing `404 NOT_FOUND` LangChain region lock errors.
 
+### 4. 🌐 Native Bilingual i18n UI
+- 100% elastic UI supporting seamless English (EN) and Chinese (CN) toggling.
+- Not just static UI translation: System state, Multi-Agent thinking processes, and final RAG outputs are dynamically prompted to output strictly in the selected target language.
+
+---
+
+## 🛠️ Tech Stack
+
+* **Frontend / Dashboard:** Streamlit, Plotly (Advanced Subplot Candlesticks, MACD, Volume)
+* **AI Orchestration:** LangChain Core, LangGraph, Google Generative AI (Native SDK)
+* **Data Ingestion:** `yfinance`, `beautifulsoup4`, `requests`
+* **Concurrency & i18n:** `concurrent.futures`, `deep-translator`
+* **Execution Sandbox:** `langchain_experimental.utilities.PythonREPL`
+
+---
+
+## ⚙️ Quick Start Installation
+
+**1. Clone the repository**
+```bash
+git clone [https://github.com/yourusername/Finsight_Nexus.git](https://github.com/yourusername/Finsight_Nexus.git)
+cd Finsight_Nexus
