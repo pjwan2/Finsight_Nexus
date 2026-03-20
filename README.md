@@ -1,4 +1,5 @@
-<img width="1024" height="880" alt="image" src="https://github.com/user-attachments/assets/3c5f0a81-1e42-45cf-a8a4-15cd3fcf9422" />
+<img width="1388" height="1122" alt="image" src="https://github.com/user-attachments/assets/235b8b9f-3f76-49b7-8076-30a31ffe3a85" />
+
 
 # 📈 Finsight Nexus 3.0: Enterprise-Grade AI Quant Terminal
 
