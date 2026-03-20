@@ -6,7 +6,6 @@ src/data_fetcher.py - Production Stable Edition
 - Uses /tmp strictly for GCP read-only filesystem compatibility.
 """
 import os
-# 必须在导入 yfinance 之前设置，解决 GCP 只读系统报错
 os.environ["YFINANCE_CACHE_DIR"] = "/tmp/yfinance_cache"
 
 import yfinance as yf
@@ -17,7 +16,6 @@ import urllib.request
 import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
 
-# 让 yfinance 自己在 /tmp 管理时区缓存
 try:
     yf.set_tz_cache_location("/tmp/yfinance_tz")
 except Exception:
@@ -45,7 +43,7 @@ CROSS_ASSET_MAP = {
 
 @st.cache_data(ttl=86400, show_spinner=False) 
 def get_dynamic_sector_map():
-    # 业界成熟方案：仪表盘数据源尽量静态化，避免无意义的并发请求导致风控封锁
+
     return FALLBACK_SECTOR_MAP
 
 @st.cache_data(ttl=300, show_spinner=False)
@@ -53,7 +51,7 @@ def fetch_real_macro():
     symbols = ["SPY", "QQQ", "^VIX", "^TNX"]
     results = []
     try:
-        # 核心：threads=False 防止 Streamlit 在云端死锁
+
         data = yf.download(symbols, period="5d", interval="1d", progress=False, threads=False)['Close']
         for sym in symbols:
             if sym in data.columns and len(data[sym].dropna()) >= 2:
