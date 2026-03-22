@@ -1,4 +1,4 @@
-<img width="1388" height="1122" alt="image" src="https://github.com/user-attachments/assets/235b8b9f-3f76-49b7-8076-30a31ffe3a85" />
+<img width="2557" height="1038" alt="image" src="https://github.com/user-attachments/assets/17f28628-4ead-4e89-97c3-056bd5726da2" />
 
 
 # 📟 Finsight Nexus: Enterprise Multi-Agent AI Quant Terminal
