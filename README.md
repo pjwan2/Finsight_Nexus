@@ -13,7 +13,6 @@
 
 > 💡 **Architectural Highlight:** This system goes beyond standard LLM wrappers. It features autonomous agents that dynamically generate Python quantitative models, execute them in a local sandbox, and utilize the mathematical outputs to formulate mathematically-backed options playbooks.
 
-![Finsight Terminal Dashboard](./image_9b94c2.jpg) *(Replace with your actual image path/link)*
 
 
 
@@ -53,9 +52,3 @@ A 4-node sequential state machine (Ledger) that mimics a real Wall Street quant 
 
 ---
 
-## ⚙️ Quick Start Installation
-
-**1. Clone the repository**
-```bash
-git clone [https://github.com/yourusername/Finsight_Nexus.git](https://github.com/yourusername/Finsight_Nexus.git)
-cd Finsight_Nexus
